@@ -1,6 +1,13 @@
 // hooks/useChat.ts
-import { useCallback } from 'react';
-import { useClearMessages, useError, useIsLoading, useMessages, useSendMessage, useSetError } from '@store/chatStore';
+import { useCallback } from "react";
+import {
+  useClearMessages,
+  useError,
+  useIsLoading,
+  useMessages,
+  useSendMessage,
+  useSetError,
+} from "@store/chatStore";
 
 export const useChat = () => {
   const messages = useMessages();
@@ -10,9 +17,12 @@ export const useChat = () => {
   const clearMessages = useClearMessages();
   const setError = useSetError();
 
-  const handleSendMessage = useCallback(async (content: string) => {
-    await sendMessage(content);
-  }, [sendMessage]);
+  const handleSendMessage = useCallback(
+    async (content: string) => {
+      await sendMessage(content);
+    },
+    [sendMessage],
+  );
 
   const handleClearChat = useCallback(() => {
     clearMessages();

@@ -1,8 +1,8 @@
 // store/chatStore.ts
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
-import type { Message } from '@components/chat-app/chat-app';
-import { sendMessageToAI } from '@services/aiService';
+import { create } from "zustand";
+import { devtools } from "zustand/middleware";
+import type { Message } from "@components/chat-app/chat-app";
+import { sendMessageToAI } from "@services/aiService";
 
 interface ChatState {
   messages: Message[];
@@ -36,7 +36,7 @@ export const useChatStore = create<ChatStore>()(
         const userMessage: Message = {
           id: Date.now().toString(),
           content: content.trim(),
-          role: 'user',
+          role: "user",
           timestamp: new Date(),
         };
 
@@ -48,16 +48,16 @@ export const useChatStore = create<ChatStore>()(
             error: null,
           }),
           false,
-          'sendMessage/addUserMessage'
+          "sendMessage/addUserMessage",
         );
 
         try {
           const aiResponse = await sendMessageToAI(content);
-          
+
           const assistantMessage: Message = {
             id: (Date.now() + 1).toString(),
             content: aiResponse,
-            role: 'assistant',
+            role: "assistant",
             timestamp: new Date(),
           };
 
@@ -67,48 +67,36 @@ export const useChatStore = create<ChatStore>()(
               isLoading: false,
             }),
             false,
-            'sendMessage/addAssistantMessage'
+            "sendMessage/addAssistantMessage",
           );
         } catch (error) {
           set(
             {
               isLoading: false,
-              error: 'Failed to get AI response. Please try again.',
+              error: "Failed to get AI response. Please try again.",
             },
             false,
-            'sendMessage/error'
+            "sendMessage/error",
           );
         }
       },
 
       clearMessages: () => {
-        set(
-          initialState,
-          false,
-          'clearMessages'
-        );
+        set(initialState, false, "clearMessages");
       },
 
       setError: (error: string | null) => {
-        set(
-          { error },
-          false,
-          'setError'
-        );
+        set({ error }, false, "setError");
       },
 
       setLoading: (isLoading: boolean) => {
-        set(
-          { isLoading },
-          false,
-          'setLoading'
-        );
+        set({ isLoading }, false, "setLoading");
       },
     }),
     {
-      name: 'chat-store',
-    }
-  )
+      name: "chat-store",
+    },
+  ),
 );
 
 // Selectors for optimized re-renders
@@ -116,6 +104,7 @@ export const useMessages = () => useChatStore((state) => state.messages);
 export const useIsLoading = () => useChatStore((state) => state.isLoading);
 export const useError = () => useChatStore((state) => state.error);
 export const useSendMessage = () => useChatStore((state) => state.sendMessage);
-export const useSetError= () => useChatStore((state) => state.setError);
-export const useSetLoading= () => useChatStore((state) => state.setLoading);
-export const useClearMessages= () => useChatStore((state) => state.clearMessages);
+export const useSetError = () => useChatStore((state) => state.setError);
+export const useSetLoading = () => useChatStore((state) => state.setLoading);
+export const useClearMessages = () =>
+  useChatStore((state) => state.clearMessages);

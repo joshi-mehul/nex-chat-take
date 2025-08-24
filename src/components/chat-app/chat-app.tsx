@@ -1,16 +1,16 @@
 // components/ChatApp.tsx
-import React, { useRef, useEffect } from 'react';
-import { Bot } from 'lucide-react';
-import { useChat } from '@hooks/useChat';
+import React, { useRef, useEffect } from "react";
+import { Bot } from "lucide-react";
+import { useChat } from "@hooks/useChat";
 
-import { ThemeSettings } from '@components/theme-settings/theme-settings';
-import MessageList from '@components/message-list/message-list';
-import MessageInput from '@components/message-input/message-input';
+import { ThemeSettings } from "@components/theme-settings/theme-settings";
+import MessageList from "@components/message-list/message-list";
+import MessageInput from "@components/message-input/message-input";
 
 export interface Message {
   id: string;
   content: string;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   timestamp: Date;
 }
 
@@ -25,7 +25,7 @@ const ChatApp: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const ChatApp: React.FC = () => {
             <p className="text-sm opacity-90">Powered by AI Technology</p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <ThemeSettings />
           <button
@@ -60,8 +60,8 @@ const ChatApp: React.FC = () => {
       {/* Chat Container */}
       <div className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 scrollbar-thin">
         <div className="max-w-4xl mx-auto">
-          <MessageList 
-            messages={messages} 
+          <MessageList
+            messages={messages}
             isLoading={isLoading}
             error={error}
           />
@@ -72,10 +72,7 @@ const ChatApp: React.FC = () => {
       {/* Input Area */}
       <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <div className="max-w-4xl mx-auto">
-          <MessageInput 
-            onSendMessage={sendMessage}
-            disabled={isLoading}
-          />
+          <MessageInput onSendMessage={sendMessage} disabled={isLoading} />
         </div>
       </div>
     </div>

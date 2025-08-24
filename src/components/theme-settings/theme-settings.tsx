@@ -1,37 +1,45 @@
 // components/ThemeSettings.tsx
-import React, { useState } from 'react';
-import { Settings, Sun, Moon, Monitor, Type, X } from 'lucide-react';
-import { useTheme } from '@hooks/useTheme';
+import React, { useState } from "react";
+import { Settings, Sun, Moon, Monitor, Type, X } from "lucide-react";
+import { useTheme } from "@hooks/useTheme";
 
 export const ThemeSettings: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { mode, color, fontSize, setMode, setColor, setFontSize, getButtonClasses } = useTheme();
+  const {
+    mode,
+    color,
+    fontSize,
+    setMode,
+    setColor,
+    setFontSize,
+    getButtonClasses,
+  } = useTheme();
 
   const modeOptions = [
-    { value: 'light' as const, label: 'Light', icon: Sun },
-    { value: 'dark' as const, label: 'Dark', icon: Moon },
-    { value: 'system' as const, label: 'System', icon: Monitor },
+    { value: "light" as const, label: "Light", icon: Sun },
+    { value: "dark" as const, label: "Dark", icon: Moon },
+    { value: "system" as const, label: "System", icon: Monitor },
   ];
 
   const colorOptions = [
-    { value: 'blue' as const, label: 'Blue', class: 'bg-blue-500' },
-    { value: 'green' as const, label: 'Green', class: 'bg-green-500' },
-    { value: 'purple' as const, label: 'Purple', class: 'bg-purple-500' },
-    { value: 'red' as const, label: 'Red', class: 'bg-red-500' },
-    { value: 'orange' as const, label: 'Orange', class: 'bg-orange-500' },
+    { value: "blue" as const, label: "Blue", class: "bg-blue-500" },
+    { value: "green" as const, label: "Green", class: "bg-green-500" },
+    { value: "purple" as const, label: "Purple", class: "bg-purple-500" },
+    { value: "red" as const, label: "Red", class: "bg-red-500" },
+    { value: "orange" as const, label: "Orange", class: "bg-orange-500" },
   ];
 
   const fontSizeOptions = [
-    { value: 'small' as const, label: 'Small' },
-    { value: 'medium' as const, label: 'Medium' },
-    { value: 'large' as const, label: 'Large' },
+    { value: "small" as const, label: "Small" },
+    { value: "medium" as const, label: "Medium" },
+    { value: "large" as const, label: "Large" },
   ];
 
   return (
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className={getButtonClasses('ghost')}
+        className={getButtonClasses("ghost")}
         aria-label="Theme settings"
       >
         <Settings className="w-5 h-5" />
@@ -53,7 +61,9 @@ export const ThemeSettings: React.FC = () => {
             <div className="p-4 space-y-6">
               {/* Theme Mode */}
               <div>
-                <label className="block text-sm font-medium mb-3">Theme Mode</label>
+                <label className="block text-sm font-medium mb-3">
+                  Theme Mode
+                </label>
                 <div className="grid grid-cols-3 gap-2">
                   {modeOptions.map(({ value, label, icon: Icon }) => (
                     <button
@@ -61,9 +71,13 @@ export const ThemeSettings: React.FC = () => {
                       onClick={() => setMode(value)}
                       className={`
                         flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-all
-                        ${mode === value
-                          ? 'border-current ' + getButtonClasses('primary').split(' ').slice(-1)[0]
-                          : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                        ${
+                          mode === value
+                            ? "border-current " +
+                              getButtonClasses("primary")
+                                .split(" ")
+                                .slice(-1)[0]
+                            : "border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500"
                         }
                       `}
                     >
@@ -76,7 +90,9 @@ export const ThemeSettings: React.FC = () => {
 
               {/* Color Theme */}
               <div>
-                <label className="block text-sm font-medium mb-3">Color Theme</label>
+                <label className="block text-sm font-medium mb-3">
+                  Color Theme
+                </label>
                 <div className="grid grid-cols-5 gap-2">
                   {colorOptions.map(({ value, label, class: colorClass }) => (
                     <button
@@ -84,13 +100,16 @@ export const ThemeSettings: React.FC = () => {
                       onClick={() => setColor(value)}
                       className={`
                         flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-all
-                        ${color === value
-                          ? 'border-current ring-2 ring-offset-2 ring-current'
-                          : 'border-gray-200 dark:border-gray-600 hover:border-gray-300'
+                        ${
+                          color === value
+                            ? "border-current ring-2 ring-offset-2 ring-current"
+                            : "border-gray-200 dark:border-gray-600 hover:border-gray-300"
                         }
                       `}
                     >
-                      <div className={`w-6 h-6 rounded-full ${colorClass} mb-1`} />
+                      <div
+                        className={`w-6 h-6 rounded-full ${colorClass} mb-1`}
+                      />
                       <span className="text-xs">{label}</span>
                     </button>
                   ))}
@@ -99,7 +118,9 @@ export const ThemeSettings: React.FC = () => {
 
               {/* Font Size */}
               <div>
-                <label className="block text-sm font-medium mb-3">Font Size</label>
+                <label className="block text-sm font-medium mb-3">
+                  Font Size
+                </label>
                 <div className="grid grid-cols-3 gap-2">
                   {fontSizeOptions.map(({ value, label }) => (
                     <button
@@ -107,9 +128,10 @@ export const ThemeSettings: React.FC = () => {
                       onClick={() => setFontSize(value)}
                       className={`
                         flex items-center justify-center p-3 rounded-lg border-2 transition-all
-                        ${fontSize === value
-                          ? getButtonClasses('primary')
-                          : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                        ${
+                          fontSize === value
+                            ? getButtonClasses("primary")
+                            : "border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500"
                         }
                       `}
                     >
