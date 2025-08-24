@@ -1,7 +1,6 @@
 // store/chatStore.ts
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { shallow } from 'zustand/shallow';
 import type { Message } from '@components/chat-app/chat-app';
 import { sendMessageToAI } from '@services/aiService';
 
