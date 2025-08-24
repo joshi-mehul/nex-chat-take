@@ -1,2 +1,2 @@
-export * from './keyboard-shortcuts-help';
-export * from './zoom-controls';
+export * from "./keyboard-shortcuts-help";
+export * from "./zoom-controls";

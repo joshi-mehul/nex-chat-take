@@ -1,60 +1,52 @@
-// services/aiService.ts
-// import axios from 'axios';
-
-// Mock AI service - replace with your actual AI API
-export const sendMessageToAI = async (message: string): Promise<string> => {
-  // Mock delay to simulate API call
+export const sendMessageToAI = async (
+  message: string,
+  mode?: string,
+): Promise<string> => {
+  // Simulate API delay
   await new Promise((resolve) =>
     setTimeout(resolve, 1000 + Math.random() * 2000),
   );
 
-  // Mock responses based on message content
-  const responses = [
-    "That's an interesting question! Let me help you with that.",
-    "I understand what you're asking. Here's my thoughts on that topic.",
-    "Great question! Based on my knowledge, I can share the following insights.",
-    "I'd be happy to help you with that. Here's what I know about this topic.",
-    "That's a thoughtful inquiry. Let me provide you with a comprehensive answer.",
-  ];
+  // Mock responses based on mode
+  const responses = {
+    creative: [
+      "That's a fascinating creative concept! Let me help you develop that idea further...",
+      "I love the creative direction you're taking. Here are some ways to expand on that...",
+      "Your imagination is wonderful! Let's explore this creative path together...",
+    ],
+    coding: [
+      "Great coding question! Here's how I'd approach this problem...",
+      "Let me break down this technical concept for you...",
+      "That's a common programming challenge. Here's a clean solution...",
+    ],
+    learning: [
+      "Excellent question! Let me explain this step by step...",
+      "That's a great topic to explore. Here's what you need to know...",
+      "I'm happy to help you understand this concept better...",
+    ],
+    business: [
+      "From a business perspective, here's what I'd recommend...",
+      "That's a strategic question. Let me share some insights...",
+      "Great business thinking! Here's how you might approach this...",
+    ],
+    general: [
+      "That's an interesting question! Here's what I think...",
+      "I'm happy to help with that. Let me share my thoughts...",
+      "Thanks for asking! Here's my perspective on that...",
+    ],
+  };
 
+  const modeResponses =
+    responses[mode as keyof typeof responses] || responses.general;
   const randomResponse =
-    responses[Math.floor(Math.random() * responses.length)];
+    modeResponses[Math.floor(Math.random() * modeResponses.length)];
 
-  // Add some context based on the user's message
-  return `${randomResponse} You mentioned: "${message}". This is a simulated AI response that you can replace with actual AI API integration like OpenAI, Anthropic, or other AI services.`;
-};
-
-// Example integration with OpenAI API (commented out)
-/*
-const OPENAI_API_KEY = 'your-api-key-here';
-
-export const sendMessageToAI = async (message: string): Promise<string> => {
-  try {
-    const response = await axios.post(
-      'https://api.openai.com/v1/chat/completions',
-      {
-        model: 'gpt-3.5-turbo',
-        messages: [
-          {
-            role: 'user',
-            content: message
-          }
-        ],
-        max_tokens: 150,
-        temperature: 0.7
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${OPENAI_API_KEY}`,
-          'Content-Type': 'application/json'
-        }
-      }
+  // Occasionally simulate an error
+  if (Math.random() < 0.05) {
+    throw new Error(
+      "Sorry, I encountered an error processing your request. Please try again.",
     );
-
-    return response.data.choices[0].message.content;
-  } catch (error) {
-    console.error('AI API Error:', error);
-    throw new Error('Failed to get AI response');
   }
+
+  return `${randomResponse}\n\nRegarding "${message}" - this is a mock response that demonstrates the AI service integration. In a real implementation, this would connect to your actual AI API endpoint.`;
 };
-*/

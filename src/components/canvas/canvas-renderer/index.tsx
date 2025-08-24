@@ -1,1 +1,1 @@
-export * from './canvas-renderer';
+export * from "./canvas-renderer";

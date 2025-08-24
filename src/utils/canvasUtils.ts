@@ -1,13 +1,19 @@
 import { RENDER } from "@constants/constants";
 import type { FlowNode, ViewportState } from "@types/flow";
 
-
 export const withCtx = <T>(ctx: CanvasRenderingContext2D, fn: () => T): T => {
   ctx.save();
-  try { return fn(); } finally { ctx.restore(); }
+  try {
+    return fn();
+  } finally {
+    ctx.restore();
+  }
 };
 
-export const setupCanvas = (canvas: HTMLCanvasElement, dpr = window.devicePixelRatio || 1) => {
+export const setupCanvas = (
+  canvas: HTMLCanvasElement,
+  dpr = window.devicePixelRatio || 1,
+) => {
   const rect = canvas.getBoundingClientRect();
   canvas.width = Math.floor(rect.width * dpr);
   canvas.height = Math.floor(rect.height * dpr);
@@ -16,7 +22,10 @@ export const setupCanvas = (canvas: HTMLCanvasElement, dpr = window.devicePixelR
   return ctx;
 };
 
-export const clearAndGrid = (ctx: CanvasRenderingContext2D, viewport: ViewportState) => {
+export const clearAndGrid = (
+  ctx: CanvasRenderingContext2D,
+  viewport: ViewportState,
+) => {
   const { width, height } = ctx.canvas;
   ctx.clearRect(0, 0, width, height);
   // Background
@@ -49,22 +58,35 @@ export const clearAndGrid = (ctx: CanvasRenderingContext2D, viewport: ViewportSt
 export const getNodeColor = (node: FlowNode) => {
   if (node.color) return node.color;
   switch (node.kind) {
-    case "source": return "#2563eb";
-    case "transform": return "#a855f7";
-    case "destination": return "#16a34a";
+    case "source":
+      return "#2563eb";
+    case "transform":
+      return "#a855f7";
+    case "destination":
+      return "#16a34a";
   }
 };
 
 export const getStatusColor = (status?: FlowNode["status"]) => {
   switch (status) {
-    case "running": return "#f59e0b";
-    case "success": return "#22c55e";
-    case "error": return "#ef4444";
-    default: return "#9ca3af";
+    case "running":
+      return "#f59e0b";
+    case "success":
+      return "#22c55e";
+    case "error":
+      return "#ef4444";
+    default:
+      return "#9ca3af";
   }
 };
 
-export const hitTestNode = (node: FlowNode, x: number, y: number, zoom: number, offset: {x:number;y:number}) => {
+export const hitTestNode = (
+  node: FlowNode,
+  x: number,
+  y: number,
+  zoom: number,
+  offset: { x: number; y: number },
+) => {
   const left = node.position.x * zoom + offset.x;
   const top = node.position.y * zoom + offset.y;
   const width = node.size.width * zoom;
@@ -72,14 +94,20 @@ export const hitTestNode = (node: FlowNode, x: number, y: number, zoom: number, 
   return x >= left && x <= left + width && y >= top && y <= top + height;
 };
 
-export const nearestPortPoint = (node: FlowNode, target: {x:number;y:number}) => {
+export const nearestPortPoint = (
+  node: FlowNode,
+  target: { x: number; y: number },
+) => {
   // Simple: connect from node center
   const cx = node.position.x + node.size.width / 2;
   const cy = node.position.y + node.size.height / 2;
   return { x: cx, y: cy };
 };
 
-export const computeEdgePath = (from: {x:number;y:number}, to:{x:number;y:number}) => {
+export const computeEdgePath = (
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+) => {
   // Smooth cubic curve
   const dx = Math.abs(to.x - from.x);
   const cx1 = from.x + dx * 0.5;
@@ -89,19 +117,22 @@ export const computeEdgePath = (from: {x:number;y:number}, to:{x:number;y:number
   return { cx1, cy1, cx2, cy2 };
 };
 
-export const drawPath = (ctx: CanvasRenderingContext2D, points: {x:number;y:number}[]) => {
+export const drawPath = (
+  ctx: CanvasRenderingContext2D,
+  points: { x: number; y: number }[],
+) => {
   ctx.beginPath();
   ctx.moveTo(points[0].x, points[0].y);
-  for (let i=1;i<points.length;i++) ctx.lineTo(points[i].x, points[i].y);
+  for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
   ctx.stroke();
 };
 
 export const drawCubic = (
   ctx: CanvasRenderingContext2D,
-  from:{x:number;y:number},
-  to:{x:number;y:number},
-  c1:{x:number;y:number},
-  c2:{x:number;y:number}
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  c1: { x: number; y: number },
+  c2: { x: number; y: number },
 ) => {
   ctx.beginPath();
   ctx.moveTo(from.x, from.y);
@@ -109,7 +140,11 @@ export const drawCubic = (
   ctx.stroke();
 };
 
-export const drawEdgeLabel = (ctx: CanvasRenderingContext2D, mid:{x:number;y:number}, label?: string) => {
+export const drawEdgeLabel = (
+  ctx: CanvasRenderingContext2D,
+  mid: { x: number; y: number },
+  label?: string,
+) => {
   if (!label) return;
   ctx.save();
   ctx.fillStyle = "white";
@@ -118,10 +153,10 @@ export const drawEdgeLabel = (ctx: CanvasRenderingContext2D, mid:{x:number;y:num
   ctx.font = "12px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto";
   const padding = 6;
   const textWidth = ctx.measureText(label).width;
-  const w = textWidth + padding*2;
+  const w = textWidth + padding * 2;
   const h = 18;
-  const x = mid.x - w/2;
-  const y = mid.y - h/2;
+  const x = mid.x - w / 2;
+  const y = mid.y - h / 2;
   ctx.strokeRect(x, y, w, h);
   ctx.fillRect(x, y, w, h);
   ctx.fillStyle = "#111827"; // gray-900
@@ -129,13 +164,23 @@ export const drawEdgeLabel = (ctx: CanvasRenderingContext2D, mid:{x:number;y:num
   ctx.restore();
 };
 
-export const arcArrow = (ctx: CanvasRenderingContext2D, from: {x:number;y:number}, to: {x:number;y:number}) => {
+export const arcArrow = (
+  ctx: CanvasRenderingContext2D,
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+) => {
   const angle = Math.atan2(to.y - from.y, to.x - from.x);
   const size = 8;
   ctx.beginPath();
   ctx.moveTo(to.x, to.y);
-  ctx.lineTo(to.x - size * Math.cos(angle - Math.PI / 6), to.y - size * Math.sin(angle - Math.PI / 6));
-  ctx.lineTo(to.x - size * Math.cos(angle + Math.PI / 6), to.y - size * Math.sin(angle + Math.PI / 6));
+  ctx.lineTo(
+    to.x - size * Math.cos(angle - Math.PI / 6),
+    to.y - size * Math.sin(angle - Math.PI / 6),
+  );
+  ctx.lineTo(
+    to.x - size * Math.cos(angle + Math.PI / 6),
+    to.y - size * Math.sin(angle + Math.PI / 6),
+  );
   ctx.closePath();
   ctx.fill();
 };

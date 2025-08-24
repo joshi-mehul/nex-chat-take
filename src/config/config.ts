@@ -3,7 +3,7 @@ export const appConfig = {
   ariaAppLabel: "Diagram editor",
   initialViewport: {
     zoom: 1,
-    offset: { x: 0, y: 0 }
+    offset: { x: 0, y: 0 },
   },
   // Demo seed graph
   seed: {
@@ -15,7 +15,7 @@ export const appConfig = {
         position: { x: 100, y: 100 },
         size: { width: 180, height: 70 },
         status: "success",
-        meta: { bucket: "my-bucket" }
+        meta: { bucket: "my-bucket" },
       },
       {
         id: "n2",
@@ -24,7 +24,7 @@ export const appConfig = {
         position: { x: 380, y: 180 },
         size: { width: 200, height: 80 },
         status: "running",
-        meta: { schedule: "0 * * * *" }
+        meta: { schedule: "0 * * * *" },
       },
       {
         id: "n3",
@@ -33,12 +33,12 @@ export const appConfig = {
         position: { x: 720, y: 120 },
         size: { width: 220, height: 80 },
         status: "idle",
-        meta: { cluster: "analytics" }
-      }
+        meta: { cluster: "analytics" },
+      },
     ],
     edges: [
       { id: "e1", fromNodeId: "n1", toNodeId: "n2", label: "ingest" },
-      { id: "e2", fromNodeId: "n2", toNodeId: "n3", label: "load" }
-    ]
-  }
+      { id: "e2", fromNodeId: "n2", toNodeId: "n3", label: "load" },
+    ],
+  },
 } as const;

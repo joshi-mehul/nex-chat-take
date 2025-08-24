@@ -1,20 +1,22 @@
 // store/chatStore.ts
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import type { Message } from "@components/chat-app/chat-app";
-import { sendMessageToAI } from "@services/aiService";
+import type { Message } from "@types/flow";
+import { sendMessageToAI } from "../services/aiService";
 
 interface ChatState {
   messages: Message[];
   isLoading: boolean;
   error: string | null;
+  currentMode?: string;
 }
 
 interface ChatActions {
-  sendMessage: (content: string) => Promise<void>;
+  sendMessage: (content: string, mode?: string) => Promise<void>;
   clearMessages: () => void;
   setError: (error: string | null) => void;
   setLoading: (loading: boolean) => void;
+  setCurrentMode: (mode: string) => void;
 }
 
 export type ChatStore = ChatState & ChatActions;
@@ -23,14 +25,15 @@ const initialState: ChatState = {
   messages: [],
   isLoading: false,
   error: null,
+  currentMode: undefined,
 };
 
 export const useChatStore = create<ChatStore>()(
   devtools(
-    (set, _get) => ({
+    (set, get) => ({
       ...initialState,
 
-      sendMessage: async (content: string) => {
+      sendMessage: async (content: string, mode?: string) => {
         if (!content.trim()) return;
 
         const userMessage: Message = {
@@ -46,13 +49,17 @@ export const useChatStore = create<ChatStore>()(
             messages: [...state.messages, userMessage],
             isLoading: true,
             error: null,
+            currentMode: mode || state.currentMode,
           }),
           false,
           "sendMessage/addUserMessage",
         );
 
         try {
-          const aiResponse = await sendMessageToAI(content);
+          const aiResponse = await sendMessageToAI(
+            content,
+            mode || get().currentMode,
+          );
 
           const assistantMessage: Message = {
             id: (Date.now() + 1).toString(),
@@ -82,7 +89,11 @@ export const useChatStore = create<ChatStore>()(
       },
 
       clearMessages: () => {
-        set(initialState, false, "clearMessages");
+        set(
+          { ...initialState, currentMode: get().currentMode },
+          false,
+          "clearMessages",
+        );
       },
 
       setError: (error: string | null) => {
@@ -91,6 +102,10 @@ export const useChatStore = create<ChatStore>()(
 
       setLoading: (isLoading: boolean) => {
         set({ isLoading }, false, "setLoading");
+      },
+
+      setCurrentMode: (currentMode: string) => {
+        set({ currentMode }, false, "setCurrentMode");
       },
     }),
     {
@@ -108,3 +123,6 @@ export const useSetError = () => useChatStore((state) => state.setError);
 export const useSetLoading = () => useChatStore((state) => state.setLoading);
 export const useClearMessages = () =>
   useChatStore((state) => state.clearMessages);
+export const useCurrentMode = () => useChatStore((state) => state.currentMode);
+export const useSetCurrentMode = () =>
+  useChatStore((state) => state.setCurrentMode);

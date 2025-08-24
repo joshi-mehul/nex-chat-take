@@ -2,12 +2,11 @@ import { RENDER } from "@constants/constants";
 import type { ViewportState } from "@types/flow";
 import { withCtx } from "@utils/canvasUtils";
 
-
 export const drawMarquee = (
   ctx: CanvasRenderingContext2D,
-  a: {x:number;y:number},
-  b: {x:number;y:number},
-  _viewport: ViewportState
+  a: { x: number; y: number },
+  b: { x: number; y: number },
+  _viewport: ViewportState,
 ) => {
   const left = Math.min(a.x, b.x);
   const top = Math.min(a.y, b.y);

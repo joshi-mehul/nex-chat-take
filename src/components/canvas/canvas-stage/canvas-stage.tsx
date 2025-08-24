@@ -6,29 +6,34 @@ import { screenToWorld } from "@utils/geometry";
 
 export const CanvasStage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const nodes = useFlowStore(s => s.nodes);
-const edges = useFlowStore(s => s.edges);
-const viewport = useFlowStore(s => s.viewport);
-const selection = useFlowStore(s => s.selection);
-const hoveredNodeId = useFlowStore(s => s.hoveredNodeId);
-const connecting = useFlowStore(s => s.connecting);
+  const nodes = useFlowStore((s) => s.nodes);
+  const edges = useFlowStore((s) => s.edges);
+  const viewport = useFlowStore((s) => s.viewport);
+  const selection = useFlowStore((s) => s.selection);
+  const hoveredNodeId = useFlowStore((s) => s.hoveredNodeId);
+  const connecting = useFlowStore((s) => s.connecting);
 
-const setViewport = useFlowStore(s => s.setViewport);
-const setSelection = useFlowStore(s => s.setSelection);
-const clearSelection = useFlowStore(s => s.clearSelection);
-const moveSelectedNodes = useFlowStore(s => s.moveSelectedNodes);
+  const setViewport = useFlowStore((s) => s.setViewport);
+  const setSelection = useFlowStore((s) => s.setSelection);
+  const clearSelection = useFlowStore((s) => s.clearSelection);
+  const moveSelectedNodes = useFlowStore((s) => s.moveSelectedNodes);
 
-const beginConnect = useFlowStore(s => s.beginConnect);
-const updateConnectingCursor = useFlowStore(s => s.updateConnectingCursor);
-const completeConnect = useFlowStore(s => s.completeConnect);
-const cancelConnect = useFlowStore(s => s.cancelConnect);
+  const beginConnect = useFlowStore((s) => s.beginConnect);
+  const updateConnectingCursor = useFlowStore((s) => s.updateConnectingCursor);
+  const completeConnect = useFlowStore((s) => s.completeConnect);
+  const cancelConnect = useFlowStore((s) => s.cancelConnect);
 
-const removeNodes = useFlowStore(s => s.removeNodes);
-const announce = useFlowStore(s => s.announce);
+  const removeNodes = useFlowStore((s) => s.removeNodes);
+  const announce = useFlowStore((s) => s.announce);
 
   const [isPanning, setIsPanning] = useState(false);
-  const [dragStart, setDragStart] = useState<{x:number;y:number}|null>(null);
-  const [nodeDragStart, setNodeDragStart] = useState<{x:number;y:number}|null>(null);
+  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(
+    null,
+  );
+  const [nodeDragStart, setNodeDragStart] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   // Render
   useEffect(() => {
@@ -43,7 +48,7 @@ const announce = useFlowStore(s => s.announce);
       selectedEdgeIds: selection.edgeIds,
       hoveredNodeId,
       marquee: selection.marquee ?? null,
-      connecting
+      connecting,
     });
   }, [nodes, edges, viewport, selection, hoveredNodeId, connecting]);
 
@@ -59,7 +64,9 @@ const announce = useFlowStore(s => s.announce);
 
     const onDown = (e: MouseEvent) => {
       const pos = getPos(e);
-      const clickedNode = nodes.find(n => hitTestNode(n, pos.x, pos.y, viewport.zoom, viewport.offset));
+      const clickedNode = nodes.find((n) =>
+        hitTestNode(n, pos.x, pos.y, viewport.zoom, viewport.offset),
+      );
 
       if (e.altKey && clickedNode) {
         beginConnect(clickedNode.id, pos);
@@ -102,7 +109,12 @@ const announce = useFlowStore(s => s.announce);
       }
 
       if (isPanning && dragStart) {
-        setViewport({ offset: { x: viewport.offset.x + (pos.x - dragStart.x), y: viewport.offset.y + (pos.y - dragStart.y) } });
+        setViewport({
+          offset: {
+            x: viewport.offset.x + (pos.x - dragStart.x),
+            y: viewport.offset.y + (pos.y - dragStart.y),
+          },
+        });
         setDragStart(pos);
         return;
       }
@@ -111,7 +123,9 @@ const announce = useFlowStore(s => s.announce);
     const onUp = (e: MouseEvent) => {
       const pos = getPos(e);
       if (connecting) {
-        const overNode = nodes.find(n => hitTestNode(n, pos.x, pos.y, viewport.zoom, viewport.offset));
+        const overNode = nodes.find((n) =>
+          hitTestNode(n, pos.x, pos.y, viewport.zoom, viewport.offset),
+        );
         if (overNode) completeConnect(overNode.id);
         else cancelConnect();
       }
@@ -124,13 +138,17 @@ const announce = useFlowStore(s => s.announce);
         const top = Math.min(start.y, end.y);
         const right = Math.max(start.x, end.x);
         const bottom = Math.max(start.y, end.y);
-        const selected = nodes.filter(n => {
-          const x = n.position.x * viewport.zoom + viewport.offset.x;
-          const y = n.position.y * viewport.zoom + viewport.offset.y;
-          return x >= left && x <= right && y >= top && y <= bottom;
-        }).map(n => n.id);
+        const selected = nodes
+          .filter((n) => {
+            const x = n.position.x * viewport.zoom + viewport.offset.x;
+            const y = n.position.y * viewport.zoom + viewport.offset.y;
+            return x >= left && x <= right && y >= top && y <= bottom;
+          })
+          .map((n) => n.id);
         setSelection({ nodeIds: selected, edgeIds: [], marquee: null });
-        announce(`${selected.length} node${selected.length===1? "": "s"} selected`);
+        announce(
+          `${selected.length} node${selected.length === 1 ? "" : "s"} selected`,
+        );
       }
 
       setIsPanning(false);
@@ -148,17 +166,27 @@ const announce = useFlowStore(s => s.announce);
         // Zoom towards mouse position
         const rect = canvas.getBoundingClientRect();
         const mouse = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-        const worldBefore = screenToWorld(mouse, viewport.zoom, viewport.offset);
+        const worldBefore = screenToWorld(
+          mouse,
+          viewport.zoom,
+          viewport.offset,
+        );
         const worldAfter = screenToWorld(mouse, newZoom, viewport.offset);
         const dx = (worldAfter.x - worldBefore.x) * newZoom;
         const dy = (worldAfter.y - worldBefore.y) * newZoom;
 
-        setViewport({ zoom: newZoom, offset: { x: viewport.offset.x + dx, y: viewport.offset.y + dy } });
+        setViewport({
+          zoom: newZoom,
+          offset: { x: viewport.offset.x + dx, y: viewport.offset.y + dy },
+        });
       }
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (["Delete", "Backspace"].includes(e.key) && selection.nodeIds.length > 0) {
+      if (
+        ["Delete", "Backspace"].includes(e.key) &&
+        selection.nodeIds.length > 0
+      ) {
         removeNodes(selection.nodeIds);
       }
     };
@@ -175,7 +203,23 @@ const announce = useFlowStore(s => s.announce);
       canvas.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [nodes, edges, viewport, selection, connecting, setViewport, setSelection, clearSelection, moveSelectedNodes, beginConnect, updateConnectingCursor, completeConnect, cancelConnect, removeNodes, announce]);
+  }, [
+    nodes,
+    edges,
+    viewport,
+    selection,
+    connecting,
+    setViewport,
+    setSelection,
+    clearSelection,
+    moveSelectedNodes,
+    beginConnect,
+    updateConnectingCursor,
+    completeConnect,
+    cancelConnect,
+    removeNodes,
+    announce,
+  ]);
 
   return (
     <div className="relative flex-1">
@@ -188,4 +232,4 @@ const announce = useFlowStore(s => s.announce);
       />
     </div>
   );
-}
+};

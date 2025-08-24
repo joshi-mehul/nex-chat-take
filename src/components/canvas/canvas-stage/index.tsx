@@ -1,1 +1,1 @@
-export * from './canvas-stage';
+export * from "./canvas-stage";

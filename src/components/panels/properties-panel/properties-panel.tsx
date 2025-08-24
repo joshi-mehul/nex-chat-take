@@ -3,14 +3,14 @@ import { useFlowStore } from "@store/flowStore";
 import { useMemo } from "react";
 
 export const PropertiesPanel = () => {
-  const nodes = useFlowStore(s => s.nodes);
-const selection = useFlowStore(s => s.selection);
-const updateNode = useFlowStore(s => s.updateNode);
-const removeNodes = useFlowStore(s => s.removeNodes);
+  const nodes = useFlowStore((s) => s.nodes);
+  const selection = useFlowStore((s) => s.selection);
+  const updateNode = useFlowStore((s) => s.updateNode);
+  const removeNodes = useFlowStore((s) => s.removeNodes);
 
   const selectedNode = useMemo(
-    () => nodes.find(n => n.id === selection.nodeIds[0]),
-    [nodes, selection.nodeIds]
+    () => nodes.find((n) => n.id === selection.nodeIds[0]),
+    [nodes, selection.nodeIds],
   );
 
   if (!selectedNode) {
@@ -20,7 +20,9 @@ const removeNodes = useFlowStore(s => s.removeNodes);
         className="w-80 shrink-0 border-l border-gray-200 bg-white p-4"
       >
         <h2 className="text-sm font-semibold text-gray-700">Properties</h2>
-        <p className="text-sm text-gray-500 mt-2">Select a node to edit its properties.</p>
+        <p className="text-sm text-gray-500 mt-2">
+          Select a node to edit its properties.
+        </p>
       </aside>
     );
   }
@@ -41,7 +43,9 @@ const removeNodes = useFlowStore(s => s.removeNodes);
           <input
             className="mt-1 w-full rounded border border-gray-300 px-2 py-1 focus-visible:shadow-focus"
             value={selectedNode.label}
-            onChange={(e) => updateNode(selectedNode.id, { label: e.target.value })}
+            onChange={(e) =>
+              updateNode(selectedNode.id, { label: e.target.value })
+            }
           />
         </div>
 
@@ -52,7 +56,14 @@ const removeNodes = useFlowStore(s => s.removeNodes);
               type="number"
               className="mt-1 w-full rounded border border-gray-300 px-2 py-1"
               value={Math.round(selectedNode.position.x)}
-              onChange={(e) => updateNode(selectedNode.id, { position: { ...selectedNode.position, x: Number(e.target.value) } })}
+              onChange={(e) =>
+                updateNode(selectedNode.id, {
+                  position: {
+                    ...selectedNode.position,
+                    x: Number(e.target.value),
+                  },
+                })
+              }
             />
           </div>
           <div>
@@ -61,7 +72,14 @@ const removeNodes = useFlowStore(s => s.removeNodes);
               type="number"
               className="mt-1 w-full rounded border border-gray-300 px-2 py-1"
               value={Math.round(selectedNode.position.y)}
-              onChange={(e) => updateNode(selectedNode.id, { position: { ...selectedNode.position, y: Number(e.target.value) } })}
+              onChange={(e) =>
+                updateNode(selectedNode.id, {
+                  position: {
+                    ...selectedNode.position,
+                    y: Number(e.target.value),
+                  },
+                })
+              }
             />
           </div>
         </div>
@@ -73,7 +91,11 @@ const removeNodes = useFlowStore(s => s.removeNodes);
               type="number"
               className="mt-1 w-full rounded border border-gray-300 px-2 py-1"
               value={Math.round(selectedNode.size.width)}
-              onChange={(e) => updateNode(selectedNode.id, { size: { ...selectedNode.size, width: Number(e.target.value) } })}
+              onChange={(e) =>
+                updateNode(selectedNode.id, {
+                  size: { ...selectedNode.size, width: Number(e.target.value) },
+                })
+              }
             />
           </div>
           <div>
@@ -82,7 +104,14 @@ const removeNodes = useFlowStore(s => s.removeNodes);
               type="number"
               className="mt-1 w-full rounded border border-gray-300 px-2 py-1"
               value={Math.round(selectedNode.size.height)}
-              onChange={(e) => updateNode(selectedNode.id, { size: { ...selectedNode.size, height: Number(e.target.value) } })}
+              onChange={(e) =>
+                updateNode(selectedNode.id, {
+                  size: {
+                    ...selectedNode.size,
+                    height: Number(e.target.value),
+                  },
+                })
+              }
             />
           </div>
         </div>
@@ -92,7 +121,9 @@ const removeNodes = useFlowStore(s => s.removeNodes);
           <select
             className="mt-1 w-full rounded border border-gray-300 px-2 py-1"
             value={selectedNode.status ?? "idle"}
-            onChange={(e) => updateNode(selectedNode.id, { status: e.target.value as any })}
+            onChange={(e) =>
+              updateNode(selectedNode.id, { status: e.target.value as any })
+            }
           >
             <option value="idle">Idle</option>
             <option value="running">Running</option>
@@ -102,12 +133,16 @@ const removeNodes = useFlowStore(s => s.removeNodes);
         </div>
 
         <div>
-          <label className="block text-xs text-gray-600">Color (override)</label>
+          <label className="block text-xs text-gray-600">
+            Color (override)
+          </label>
           <input
             type="color"
             className="mt-1 h-9 w-full rounded border border-gray-300 px-2 py-1"
             value={selectedNode.color ?? "#000000"}
-            onChange={(e) => updateNode(selectedNode.id, { color: e.target.value })}
+            onChange={(e) =>
+              updateNode(selectedNode.id, { color: e.target.value })
+            }
           />
         </div>
 
@@ -122,4 +157,4 @@ const removeNodes = useFlowStore(s => s.removeNodes);
       </div>
     </aside>
   );
-}
+};

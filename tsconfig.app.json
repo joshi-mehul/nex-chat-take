@@ -29,6 +29,7 @@
       "@config/*": ["./config/*"],
       "@constants/*": ["./constants/*"],
       "@hooks/*": ["./hooks/*"],
+      "@pages/*": ["./pages/*"],
       "@services/*": ["./services/*"],
       "@store/*": ["./store/*"],
       "@theme/*": ["./theme/*"],

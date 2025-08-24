@@ -7,19 +7,6 @@ import { ThemeSettings } from "@components/theme-settings/theme-settings";
 import MessageList from "@components/message-list/message-list";
 import MessageInput from "@components/message-input/message-input";
 
-export interface Message {
-  id: string;
-  content: string;
-  role: "user" | "assistant";
-  timestamp: Date;
-}
-
-export interface ChatState {
-  messages: Message[];
-  isLoading: boolean;
-  error: string | null;
-}
-
 const ChatApp: React.FC = () => {
   const { messages, isLoading, error, sendMessage, clearChat } = useChat();
   const messagesEndRef = useRef<HTMLDivElement>(null);

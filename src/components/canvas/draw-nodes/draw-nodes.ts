@@ -6,7 +6,7 @@ export const drawNodes = (
   nodes: FlowNode[],
   viewport: ViewportState,
   selectedIds: Set<string>,
-  hoveredId: string | null
+  hoveredId: string | null,
 ) => {
   const { zoom, offset } = viewport;
 
@@ -32,12 +32,12 @@ export const drawNodes = (
       if (selectedIds.has(node.id)) {
         ctx.strokeStyle = "rgba(59,130,246,0.9)";
         ctx.lineWidth = 2;
-        roundRect(ctx, x-2, y-2, w+4, h+4, r);
+        roundRect(ctx, x - 2, y - 2, w + 4, h + 4, r);
         ctx.stroke();
       } else if (hoveredId === node.id) {
         ctx.strokeStyle = "rgba(59,130,246,0.5)";
         ctx.lineWidth = 2;
-        roundRect(ctx, x-2, y-2, w+4, h+4, r);
+        roundRect(ctx, x - 2, y - 2, w + 4, h + 4, r);
         ctx.stroke();
       }
 
@@ -68,7 +68,7 @@ const roundRect = (
   y: number,
   width: number,
   height: number,
-  radius: number
+  radius: number,
 ) => {
   const r = Math.min(radius, width / 2, height / 2);
   ctx.beginPath();

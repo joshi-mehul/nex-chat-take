@@ -1,2 +1,2 @@
-export * from './color-legend';
-export * from './status-badge';
+export * from "./color-legend";
+export * from "./status-badge";
