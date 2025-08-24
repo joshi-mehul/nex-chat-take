@@ -89,7 +89,7 @@ export const useChatStore = create<ChatStore>()(
           set(
             {
               isLoading: false,
-              error: "Failed to get AI response. Please try again.",
+              error: `Failed to get AI response. Please try again. ${error}`,
             },
             false,
             "sendMessage/error",

@@ -4,6 +4,7 @@ import type {
   AnnounceMessage,
   FlowEdge,
   FlowNode,
+  NodeKind,
   SelectionState,
   Vector2,
   ViewportState,
@@ -66,7 +67,7 @@ export const useFlowStore = create<FlowState>((set, get) => ({
       produce<FlowState>((draft) => {
         const node: FlowNode = {
           id,
-          kind: (partial.kind as any) ?? "source",
+          kind: (partial.kind as unknown as NodeKind) ?? "source",
           label: partial.label ?? "Untitled",
           position: partial.position ?? { x: 0, y: 0 },
           size: partial.size ?? { width: 160, height: 60 },

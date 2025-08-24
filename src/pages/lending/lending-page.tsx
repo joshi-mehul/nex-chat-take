@@ -2,7 +2,7 @@ import MessageInput from "@components/message-input/message-input";
 import { ModeCard } from "@components/mode-card/mode-card";
 import { useChat } from "@hooks/useChat";
 import { useClearMessages } from "@store/chatStore";
-import { useModes, useSetSelectedMode } from "@store/modeStore";
+import { useModes } from "@store/modeStore";
 import type { ChatMode } from "@types/flow";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const modes = useModes();
-  const setSelectedMode = useSetSelectedMode();
   const clearMessages = useClearMessages();
   const { isLoading, sendMessage } = useChat();
 

@@ -28,7 +28,7 @@ export const clearAndGrid = (
 ) => {
   const { width, height } = ctx.canvas;
   ctx.clearRect(0, 0, width, height);
-  
+
   // Background
   ctx.fillStyle = RENDER.background;
   ctx.fillRect(0, 0, width, height);
@@ -40,7 +40,7 @@ export const clearAndGrid = (
   const startY = offset.y % gridSize;
 
   ctx.fillStyle = "rgba(100,116,139,0.4)"; // Made slightly more visible
-  
+
   // Fixed dot radius - simple and reliable
   const dotRadius = 1;
 
@@ -52,7 +52,6 @@ export const clearAndGrid = (
     }
   }
 };
-
 
 export const getNodeColor = (node: FlowNode) => {
   if (node.color) return node.color;
@@ -93,10 +92,7 @@ export const hitTestNode = (
   return x >= left && x <= left + width && y >= top && y <= top + height;
 };
 
-export const nearestPortPoint = (
-  node: FlowNode,
-  target: { x: number; y: number },
-) => {
+export const nearestPortPoint = (node: FlowNode) => {
   // Simple: connect from node center
   const cx = node.position.x + node.size.width / 2;
   const cy = node.position.y + node.size.height / 2;

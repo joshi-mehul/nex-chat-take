@@ -1,5 +1,3 @@
-
-
 import { CanvasStage } from "@components/canvas";
 import ChatApp from "@components/chat-app/chat-app";
 import { ColorLegend } from "@components/common";
@@ -7,13 +5,9 @@ import { KeyboardShortcutsHelp, ZoomControls } from "@components/controls";
 import { PropertiesPanel, Toolbar } from "@components/panels";
 import Announcer from "@components/panels/announcer/announcer";
 import { ThemeSettings } from "@components/theme-settings";
-import { useChat } from "@hooks/useChat";
-import { Bot } from "lucide-react";
 import React from "react";
 
 export const ChatThreadPage: React.FC = () => {
-  const { clearChat } = useChat();
-
   return (
     <div className="h-screen flex flex-col">
       {/* Header */}

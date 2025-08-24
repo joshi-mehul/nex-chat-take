@@ -1,5 +1,6 @@
 import StatusBadge from "@components/common/status-badge/status-badge";
 import { useFlowStore } from "@store/flowStore";
+import type { NodeStatus } from "@types/flow";
 import { useMemo } from "react";
 
 export const PropertiesPanel = () => {
@@ -112,7 +113,9 @@ export const PropertiesPanel = () => {
             className="mt-1 w-full rounded border border-gray-300 px-2 py-1"
             value={selectedNode.status ?? "idle"}
             onChange={(e) =>
-              updateNode(selectedNode.id, { status: e.target.value as any })
+              updateNode(selectedNode.id, {
+                status: e.target.value as unknown as NodeStatus,
+              })
             }
           >
             <option value="idle">Idle</option>

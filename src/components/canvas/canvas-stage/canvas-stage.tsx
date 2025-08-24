@@ -28,7 +28,9 @@ export const CanvasStage = () => {
 
   const [isPanning, setIsPanning] = useState(false);
   const [isDraggingNodes, setIsDraggingNodes] = useState(false); // New state for node dragging
-  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
+  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(
+    null,
+  );
   const [nodeDragStart, setNodeDragStart] = useState<{
     x: number;
     y: number;
@@ -94,7 +96,7 @@ export const CanvasStage = () => {
 
     const onMove = (e: MouseEvent) => {
       const pos = getPos(e);
-      
+
       if (connecting) {
         updateConnectingCursor(pos);
         return;
@@ -111,7 +113,7 @@ export const CanvasStage = () => {
         if (!isDraggingNodes) {
           setIsDraggingNodes(true);
         }
-        
+
         const dx = (pos.x - nodeDragStart.x) / viewport.zoom;
         const dy = (pos.y - nodeDragStart.y) / viewport.zoom;
         moveSelectedNodes({ x: dx, y: dy });
@@ -133,7 +135,7 @@ export const CanvasStage = () => {
 
     const onUp = (e: MouseEvent) => {
       const pos = getPos(e);
-      
+
       if (connecting) {
         const overNode = nodes.find((n) =>
           hitTestNode(n, pos.x, pos.y, viewport.zoom, viewport.offset),
@@ -203,7 +205,7 @@ export const CanvasStage = () => {
       ) {
         removeNodes(selection.nodeIds);
       }
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         clearSelection();
       }
     };
@@ -213,7 +215,7 @@ export const CanvasStage = () => {
     window.addEventListener("mouseup", onUp);
     canvas.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKeyDown);
-    
+
     return () => {
       canvas.removeEventListener("mousedown", onDown);
       window.removeEventListener("mousemove", onMove);
@@ -238,6 +240,9 @@ export const CanvasStage = () => {
     cancelConnect,
     removeNodes,
     announce,
+    dragStart,
+    isPanning,
+    nodeDragStart,
   ]);
 
   return (
