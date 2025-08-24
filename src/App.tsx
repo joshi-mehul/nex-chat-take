@@ -1,9 +1,3 @@
-import { CanvasStage } from "@components/canvas";
-import ChatApp from "@components/chat-app/chat-app";
-import { ColorLegend } from "@components/common";
-import { KeyboardShortcutsHelp, ZoomControls } from "@components/controls";
-import { PropertiesPanel, Toolbar } from "@components/panels";
-import Announcer from "@components/panels/announcer/announcer";
 import { ThemeProvider } from "@theme/theme-provider/theme-provider";
 import { LandingPage } from "@pages/lending/lending-page";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

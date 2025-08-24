@@ -20,21 +20,15 @@ export const ChatThreadPage: React.FC = () => {
       <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 text-white shadow-lg">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-white bg-opacity-20 rounded-lg">
-            <Bot className="w-6 h-6" />
+            <img src="https://nexla.com/n3x_ctx/uploads/2024/06/Layer_1.svg" />
           </div>
           <div>
-            <h1 className="text-xl font-bold">AI Chat Assistant</h1>
-            <p className="text-sm opacity-90">Powered by AI Technology</p>
+            <h1 className="text-xl font-bold">Nexla Assistant</h1>
+            <p className="text-sm opacity-90">Powered by Nexla AI</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <ThemeSettings />
-          <button
-            onClick={clearChat}
-            className="px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg font-medium transition-all duration-200"
-          >
-            Clear Chat
-          </button>
         </div>
       </div>
       {/* Split View */}

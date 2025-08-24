@@ -111,10 +111,10 @@ const MessageList: React.FC<MessageListProps> = memo(
             <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-full mb-4">
               <Bot className="w-12 h-12" />
             </div>
-            <h3 className="text-lg font-semibold mb-2">Welcome to AI Chat</h3>
+            <h3 className="text-lg font-semibold mb-2">Welcome to Nexla AI</h3>
             <p className="text-center max-w-md">
-              Start a conversation with our AI assistant. Ask questions, get
-              help, or just have a friendly chat!
+              Start a conversation with Nexla assistant. Ask questions, get
+              help, or share a problem!
             </p>
           </div>
         )}
