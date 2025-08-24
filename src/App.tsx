@@ -7,36 +7,18 @@ import Announcer from "@components/panels/announcer/announcer";
 import { ThemeProvider } from "@theme/theme-provider/theme-provider";
 import { LandingPage } from "@pages/lending/lending-page";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ChatThreadPage } from "@pages/chat-thread/chat-thread";
 
 function App() {
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+      <div className="min-h-screen bg-gradient-to-br bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
         <Router>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/chat" element={<ChatApp />} />
+            <Route path="/chat" element={<ChatThreadPage />} />
           </Routes>
         </Router>
-        {/*<ChatApp />
-        <Toolbar />
-        <div className="flex-1 flex overflow-hidden">
-          <main
-            className="flex-1 flex flex-col focus:outline-none"
-            aria-label="Canvas region"
-          >
-            <div className="flex items-center justify-between px-3 py-2 bg-gray-50 border-b border-gray-200">
-              <ColorLegend />
-              <KeyboardShortcutsHelp />
-            </div>
-            <div className="relative flex-1">
-              <CanvasStage />
-              <ZoomControls />
-            </div>
-          </main>
-          <PropertiesPanel />
-        </div>
-        <Announcer />*/}
       </div>
     </ThemeProvider>
   );

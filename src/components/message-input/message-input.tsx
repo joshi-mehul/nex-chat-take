@@ -74,7 +74,7 @@ const MessageInput: React.FC<MessageInputProps> = memo(
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)"
+              placeholder="Type your task(s)... (Press Enter to send, Shift+Enter for new line)"
               disabled={disabled || isSending}
               rows={1}
               className={`

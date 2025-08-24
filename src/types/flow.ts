@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export type NodeKind = "source" | "transform" | "destination";
 export type NodeStatus = "idle" | "running" | "success" | "error";
 
@@ -61,7 +63,7 @@ export interface ChatMode {
   id: string;
   title: string;
   description: string;
-  icon: string;
+  icon: ReactNode;
   prompt: string;
 }
 

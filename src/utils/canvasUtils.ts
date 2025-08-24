@@ -28,32 +28,31 @@ export const clearAndGrid = (
 ) => {
   const { width, height } = ctx.canvas;
   ctx.clearRect(0, 0, width, height);
+  
   // Background
   ctx.fillStyle = RENDER.background;
   ctx.fillRect(0, 0, width, height);
 
-  // Grid
+  // Grid dots
   const { zoom, offset } = viewport;
   const gridSize = RENDER.gridSize * zoom;
   const startX = offset.x % gridSize;
   const startY = offset.y % gridSize;
 
-  ctx.strokeStyle = "rgba(100,116,139,0.2)"; // slate-500 at 20%
-  ctx.lineWidth = 1;
+  ctx.fillStyle = "rgba(100,116,139,0.4)"; // Made slightly more visible
+  
+  // Fixed dot radius - simple and reliable
+  const dotRadius = 1;
 
   for (let x = startX; x < width; x += gridSize) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, height);
-    ctx.stroke();
-  }
-  for (let y = startY; y < height; y += gridSize) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(width, y);
-    ctx.stroke();
+    for (let y = startY; y < height; y += gridSize) {
+      ctx.beginPath();
+      ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
 };
+
 
 export const getNodeColor = (node: FlowNode) => {
   if (node.color) return node.color;

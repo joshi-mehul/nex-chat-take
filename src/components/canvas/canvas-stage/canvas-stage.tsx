@@ -27,9 +27,8 @@ export const CanvasStage = () => {
   const announce = useFlowStore((s) => s.announce);
 
   const [isPanning, setIsPanning] = useState(false);
-  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(
-    null,
-  );
+  const [isDraggingNodes, setIsDraggingNodes] = useState(false); // New state for node dragging
+  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
   const [nodeDragStart, setNodeDragStart] = useState<{
     x: number;
     y: number;
@@ -74,11 +73,13 @@ export const CanvasStage = () => {
       }
 
       if (clickedNode) {
-        // select node
+        // Select node if not already selected
         if (!selection.nodeIds.includes(clickedNode.id)) {
           setSelection({ nodeIds: [clickedNode.id], edgeIds: [] });
         }
+        // Prepare for potential node dragging
         setNodeDragStart(pos);
+        setIsDraggingNodes(false); // Start as false, will become true on first move
       } else {
         // Start panning or marquee
         if (e.shiftKey) {
@@ -93,14 +94,24 @@ export const CanvasStage = () => {
 
     const onMove = (e: MouseEvent) => {
       const pos = getPos(e);
-      if (connecting) updateConnectingCursor(pos);
+      
+      if (connecting) {
+        updateConnectingCursor(pos);
+        return;
+      }
 
       if (selection.marquee) {
         setSelection({ marquee: { start: selection.marquee.start, end: pos } });
         return;
       }
 
-      if (nodeDragStart) {
+      // Only move nodes if we're actually dragging them (not just selected + mouse move)
+      if (nodeDragStart && selection.nodeIds.length > 0) {
+        // Set dragging state to true on first move
+        if (!isDraggingNodes) {
+          setIsDraggingNodes(true);
+        }
+        
         const dx = (pos.x - nodeDragStart.x) / viewport.zoom;
         const dy = (pos.y - nodeDragStart.y) / viewport.zoom;
         moveSelectedNodes({ x: dx, y: dy });
@@ -122,6 +133,7 @@ export const CanvasStage = () => {
 
     const onUp = (e: MouseEvent) => {
       const pos = getPos(e);
+      
       if (connecting) {
         const overNode = nodes.find((n) =>
           hitTestNode(n, pos.x, pos.y, viewport.zoom, viewport.offset),
@@ -151,7 +163,9 @@ export const CanvasStage = () => {
         );
       }
 
+      // Reset all drag states
       setIsPanning(false);
+      setIsDraggingNodes(false);
       setDragStart(null);
       setNodeDragStart(null);
     };
@@ -189,6 +203,9 @@ export const CanvasStage = () => {
       ) {
         removeNodes(selection.nodeIds);
       }
+      if (e.key === 'Escape') {
+        clearSelection();
+      }
     };
 
     canvas.addEventListener("mousedown", onDown);
@@ -196,6 +213,7 @@ export const CanvasStage = () => {
     window.addEventListener("mouseup", onUp);
     canvas.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKeyDown);
+    
     return () => {
       canvas.removeEventListener("mousedown", onDown);
       window.removeEventListener("mousemove", onMove);
@@ -209,6 +227,7 @@ export const CanvasStage = () => {
     viewport,
     selection,
     connecting,
+    isDraggingNodes, // Add to dependencies
     setViewport,
     setSelection,
     clearSelection,
@@ -222,7 +241,7 @@ export const CanvasStage = () => {
   ]);
 
   return (
-    <div className="relative flex-1">
+    <div className="relative flex-1 h-full">
       <canvas
         ref={canvasRef}
         className="w-full h-full bg-white"

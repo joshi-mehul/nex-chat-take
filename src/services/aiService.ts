@@ -1,10 +1,11 @@
 export const sendMessageToAI = async (
   message: string,
   mode?: string,
+  resolveImmediate: boolean = false,
 ): Promise<string> => {
   // Simulate API delay
   await new Promise((resolve) =>
-    setTimeout(resolve, 1000 + Math.random() * 2000),
+    setTimeout(resolve, resolveImmediate ? 0 : 1000 + Math.random() * 2000),
   );
 
   // Mock responses based on mode

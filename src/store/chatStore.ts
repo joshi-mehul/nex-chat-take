@@ -12,7 +12,11 @@ interface ChatState {
 }
 
 interface ChatActions {
-  sendMessage: (content: string, mode?: string) => Promise<void>;
+  sendMessage: (
+    content: string,
+    mode?: string,
+    resolveImmediate?: boolean,
+  ) => Promise<void>;
   clearMessages: () => void;
   setError: (error: string | null) => void;
   setLoading: (loading: boolean) => void;
@@ -33,7 +37,11 @@ export const useChatStore = create<ChatStore>()(
     (set, get) => ({
       ...initialState,
 
-      sendMessage: async (content: string, mode?: string) => {
+      sendMessage: async (
+        content: string,
+        mode?: string,
+        resolveImmediate: boolean = false,
+      ) => {
         if (!content.trim()) return;
 
         const userMessage: Message = {
@@ -59,6 +67,7 @@ export const useChatStore = create<ChatStore>()(
           const aiResponse = await sendMessageToAI(
             content,
             mode || get().currentMode,
+            resolveImmediate,
           );
 
           const assistantMessage: Message = {

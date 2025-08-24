@@ -1,4 +1,6 @@
+import MessageInput from "@components/message-input/message-input";
 import { ModeCard } from "@components/mode-card/mode-card";
+import { useChat } from "@hooks/useChat";
 import { useClearMessages } from "@store/chatStore";
 import { useModes, useSetSelectedMode } from "@store/modeStore";
 import type { ChatMode } from "@types/flow";
@@ -10,11 +12,16 @@ export const LandingPage: React.FC = () => {
   const modes = useModes();
   const setSelectedMode = useSetSelectedMode();
   const clearMessages = useClearMessages();
+  const { isLoading, sendMessage } = useChat();
 
-  const handleModeSelect = (mode: ChatMode) => {
-    setSelectedMode(mode);
-    clearMessages();
+  const handleNavigate = () => {
     navigate("/chat");
+  };
+
+  const handleModeSelect = async (mode: ChatMode) => {
+    clearMessages();
+    await sendMessage(mode.prompt, true);
+    handleNavigate();
   };
 
   return (
@@ -22,12 +29,24 @@ export const LandingPage: React.FC = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-            AI Chat Assistant
+            Nexla Assistant
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Choose how you'd like to interact with our AI assistant. Each mode
-            is optimized for different types of conversations and tasks.
+            Choose how you'd like to interact with me? Each mode is optimized
+            for different types of conversations and tasks.
           </p>
+        </div>
+
+        <div>
+          <div className="max-w-4xl mx-auto">
+            <MessageInput
+              onSendMessage={async (message) => {
+                await sendMessage(message);
+                handleNavigate();
+              }}
+              disabled={isLoading}
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">

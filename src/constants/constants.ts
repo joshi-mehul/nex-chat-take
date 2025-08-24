@@ -15,7 +15,7 @@ export const STATUS_LABELS: Record<string, string> = {
 
 export const RENDER = {
   gridSize: 24,
-  background: "#ffffff",
+  background: "oklch(98.5% 0.002 247.839)",
   gridMajorEvery: 4,
   edgeColor: "#64748b", // slate-500
   edgeHighlight: "#0ea5e9", // sky-500

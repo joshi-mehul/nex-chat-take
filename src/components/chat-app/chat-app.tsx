@@ -20,29 +20,7 @@ const ChatApp: React.FC = () => {
   }, [messages]);
 
   return (
-    <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-xl">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800 text-white shadow-lg">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-white bg-opacity-20 rounded-lg">
-            <Bot className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold">AI Chat Assistant</h1>
-            <p className="text-sm opacity-90">Powered by AI Technology</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <ThemeSettings />
-          <button
-            onClick={clearChat}
-            className="px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg font-medium transition-all duration-200"
-          >
-            Clear Chat
-          </button>
-        </div>
-      </div>
+    <div className="flex flex-col h-full max-w-4xl bg-white dark:bg-gray-800">
 
       {/* Chat Container */}
       <div className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 scrollbar-thin">

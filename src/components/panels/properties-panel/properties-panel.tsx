@@ -14,17 +14,7 @@ export const PropertiesPanel = () => {
   );
 
   if (!selectedNode) {
-    return (
-      <aside
-        aria-label="Properties"
-        className="w-80 shrink-0 border-l border-gray-200 bg-white p-4"
-      >
-        <h2 className="text-sm font-semibold text-gray-700">Properties</h2>
-        <p className="text-sm text-gray-500 mt-2">
-          Select a node to edit its properties.
-        </p>
-      </aside>
-    );
+    return null;
   }
 
   return (

@@ -18,8 +18,8 @@ export const useChat = () => {
   const setError = useSetError();
 
   const handleSendMessage = useCallback(
-    async (content: string) => {
-      await sendMessage(content);
+    async (content: string, resolveImmediate: boolean = false) => {
+      await sendMessage(content, undefined, resolveImmediate);
     },
     [sendMessage],
   );
