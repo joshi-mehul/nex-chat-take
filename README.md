@@ -34,17 +34,17 @@ Certainly! Below is a well-structured **README.md** file template tailored speci
 
 ## Tech Stack
 
-| Technology       | Version    | Purpose                                 |
-|------------------|------------|-----------------------------------------|
-| React            | ^19        | Core UI library                         |
-| TypeScript       | ~5.8       | Static typing                           |
-| Vite             | ^7         | Build tool / dev server                 |
-| Zustand          | ^5         | State management                        |
-| Immer            | ^10        | Immutable state helpers                 |
-| Tailwind CSS     | ^4         | Utility-first CSS framework             |
-| Lucide React     | ^0.54      | Icon set for React                      |
-| Axios            | ^1         | HTTP requests                           |
-| React Router DOM | ^7         | Client-side routing                     |
+| Technology       | Version | Purpose                     |
+| ---------------- | ------- | --------------------------- |
+| React            | ^19     | Core UI library             |
+| TypeScript       | ~5.8    | Static typing               |
+| Vite             | ^7      | Build tool / dev server     |
+| Zustand          | ^5      | State management            |
+| Immer            | ^10     | Immutable state helpers     |
+| Tailwind CSS     | ^4      | Utility-first CSS framework |
+| Lucide React     | ^0.54   | Icon set for React          |
+| Axios            | ^1      | HTTP requests               |
+| React Router DOM | ^7      | Client-side routing         |
 
 Dev tools: ESLint, Prettier, Jest, Type definitions, PostCSS, Autoprefixer
 
@@ -58,45 +58,71 @@ Dev tools: ESLint, Prettier, Jest, Type definitions, PostCSS, Autoprefixer
 - [Yarn](https://classic.yarnpkg.com/) (version 1.x recommended)
 
 ### Installation
-
 ```
+
 git clone https://github.com/your-username/nex-chat-take.git
 cd nex-chat-take
 yarn install
+
 ```
 
 ### Development
 
 ```
+
 yarn dev
+
 ```
-This will start the app in development mode. Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
+
+cd mock-backend
+
+yarn install
+
+```
+
+### Development
+
+```
+
+yarn dev
+
+```
+
+This will start the app in development mode for both frontend and backend. Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
 
 ### Build
 
 ```
+
 yarn build
+
 ```
 Builds the app for production to the `dist` folder.
 
 ### Lint & Format
 
 ```
-yarn lint          # Check code quality
-yarn lint:fix      # Fix lint errors
-yarn format        # Format code with Prettier
+
+yarn lint # Check code quality
+yarn lint:fix # Fix lint errors
+yarn format # Format code with Prettier
+
 ```
 
 ### Type Checking
 
 ```
+
 yarn build:type
+
 ```
 
 ### Test
 
 ```
+
 yarn test
+
 ```
 *Note: Jest must be installed & configured; review your `/test` setup for details.*
 
@@ -121,19 +147,21 @@ yarn test
 ## Project Structure
 
 ```
+
 nex-chat-take/
 ├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── store/
-│   ├── hooks/
-│   └── ...
+│ ├── components/
+│ ├── pages/
+│ ├── store/
+│ ├── hooks/
+│ └── ...
 ├── public/
 ├── dist/
 ├── tailwind.config.js
 ├── vite.config.ts
 ├── package.json
 └── ...
+
 ```
 
 *Structure is illustrative; adjust as your actual file organization evolves.*

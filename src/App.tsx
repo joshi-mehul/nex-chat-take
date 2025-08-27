@@ -1,19 +1,17 @@
-import { ThemeProvider } from "@theme/theme-provider/theme-provider";
 import { LandingPage } from "@pages/lending/lending-page";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ChatThreadPage } from "@pages/chat-thread/chat-thread";
+import { MainPage } from "@pages/main-app/main-page";
+import { ThemeProvider } from "@theme/theme-provider/theme-provider";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 function App() {
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-gradient-to-br bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
-        <Router>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/chat" element={<ChatThreadPage />} />
-          </Routes>
-        </Router>
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/application/:conversationId" element={<MainPage />} />
+        </Routes>
+      </Router>
     </ThemeProvider>
   );
 }

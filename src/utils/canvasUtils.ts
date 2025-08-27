@@ -1,5 +1,6 @@
 import { RENDER } from "@constants/constants";
-import type { FlowNode, ViewportState } from "@types/flow";
+import type { ViewportState } from "@types/flow";
+import type { Node } from "@types/pipeline";
 
 export const withCtx = <T>(ctx: CanvasRenderingContext2D, fn: () => T): T => {
   ctx.save();
@@ -25,12 +26,13 @@ export const setupCanvas = (
 export const clearAndGrid = (
   ctx: CanvasRenderingContext2D,
   viewport: ViewportState,
+  backgroundColor: string = "oklch(98.5% 0.002 247.839)",
 ) => {
   const { width, height } = ctx.canvas;
   ctx.clearRect(0, 0, width, height);
 
   // Background
-  ctx.fillStyle = RENDER.background;
+  ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, 0, width, height);
 
   // Grid dots
@@ -53,7 +55,7 @@ export const clearAndGrid = (
   }
 };
 
-export const getNodeColor = (node: FlowNode) => {
+export const getNodeColor = (node: Node) => {
   if (node.color) return node.color;
   switch (node.kind) {
     case "source":
@@ -65,11 +67,13 @@ export const getNodeColor = (node: FlowNode) => {
   }
 };
 
-export const getStatusColor = (status?: FlowNode["status"]) => {
+export const getStatusColor = (status?: Node["status"]) => {
   switch (status) {
     case "running":
+    case "partial":
       return "#f59e0b";
     case "success":
+    case "complete":
       return "#22c55e";
     case "error":
       return "#ef4444";
@@ -79,7 +83,7 @@ export const getStatusColor = (status?: FlowNode["status"]) => {
 };
 
 export const hitTestNode = (
-  node: FlowNode,
+  node: Node,
   x: number,
   y: number,
   zoom: number,
@@ -92,7 +96,7 @@ export const hitTestNode = (
   return x >= left && x <= left + width && y >= top && y <= top + height;
 };
 
-export const nearestPortPoint = (node: FlowNode) => {
+export const nearestPortPoint = (node: Node) => {
   // Simple: connect from node center
   const cx = node.position.x + node.size.width / 2;
   const cy = node.position.y + node.size.height / 2;

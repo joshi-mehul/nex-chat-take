@@ -14,8 +14,6 @@ interface ThemeState {
 
 interface ThemeActions {
   setMode: (mode: ThemeMode) => void;
-  setColor: (color: ThemeColor) => void;
-  setFontSize: (fontSize: "small" | "medium" | "large") => void;
   toggleMode: () => void;
 }
 
@@ -55,34 +53,9 @@ export const useThemeStore = create<ThemeStore>()(
           }
         },
 
-        setColor: (color: ThemeColor) => {
-          set({ color });
-
-          // Update CSS custom properties for dynamic theming
-          if (typeof window !== "undefined") {
-            const root = window.document.documentElement;
-            root.setAttribute("data-theme-color", color);
-          }
-        },
-
-        setFontSize: (fontSize: "small" | "medium" | "large") => {
-          set({ fontSize });
-
-          if (typeof window !== "undefined") {
-            const root = window.document.documentElement;
-            const sizeMap = {
-              small: "14px",
-              medium: "16px",
-              large: "18px",
-            };
-            root.style.fontSize = sizeMap[fontSize];
-          }
-        },
-
         toggleMode: () => {
           const { mode } = get();
-          const newMode: ThemeMode =
-            mode === "light" ? "dark" : mode === "dark" ? "system" : "light";
+          const newMode: ThemeMode = mode === "light" ? "dark" : "light";
           get().setMode(newMode);
         },
       }),

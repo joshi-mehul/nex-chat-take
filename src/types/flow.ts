@@ -52,14 +52,7 @@ export interface AnnounceMessage {
   politeness?: "polite" | "assertive";
 }
 
-export interface Message {
-  id: string;
-  content: string;
-  role: "user" | "assistant";
-  timestamp: Date;
-}
-
-export interface ChatMode {
+export interface PredefinedPrompts {
   id: string;
   title: string;
   description: string;
@@ -67,8 +60,8 @@ export interface ChatMode {
   prompt: string;
 }
 
-export interface ModeState {
-  selectedMode: ChatMode | null;
-  modes: ChatMode[];
-  setSelectedMode: (mode: ChatMode | null) => void;
+export interface PredefinedPromptsState {
+  selectedPrompt: PredefinedPrompts | null;
+  prompts: PredefinedPrompts[];
+  setSelectedPrompt: (mode: PredefinedPrompts | null) => void;
 }
